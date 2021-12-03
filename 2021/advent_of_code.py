@@ -9,7 +9,7 @@
 # day 1
 
 """ 
-with open('C:\\Users\\ARyOtaRe\\Documents\\advent of code\\input_day1.txt', 'r') as input_file:
+with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day1.txt', 'r') as input_file:
     data=input_file.read()
 
 
@@ -47,7 +47,7 @@ x=0
 y=0
 
 
-with open('C:\\Users\\ARyOtaRe\\Documents\\advent of code\\input_day2.txt', 'r') as input_file:
+with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day2.txt', 'r') as input_file:
 
     for word in input_file:
         cmd,amt=word.split()
@@ -65,7 +65,7 @@ with open('C:\\Users\\ARyOtaRe\\Documents\\advent of code\\input_day2.txt', 'r')
     print(x*y)
 
 
-with open('C:\\Users\\ARyOtaRe\\Documents\\advent of code\\input_day2.txt', 'r') as input_file:
+with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day2.txt', 'r') as input_file:
     fwd1 = 0
     dpt1=0
     fwd2 = 0
@@ -103,7 +103,7 @@ delta=[]
 epsilon=[]
 
 
-with open('C:\\Users\\ARyOtaRe\\Documents\\advent of code\\input_day3.txt', 'r') as input_file:
+with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day3.txt', 'r') as input_file:
     data=[x for x in input_file.read().split()]
 
     for word in input_file:
