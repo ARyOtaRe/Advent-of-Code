@@ -140,7 +140,7 @@ for b in range (0, len(data[0])):
 
 g = int(gamma, 2)
 e = int(epsilon, 2)
-print("PART 1:", g * e)
+print(g * e)
 
 
 
@@ -166,7 +166,7 @@ while len(data) > 1:
         data = ones
     index += 1
 
-oxygen=int(data[0],2)
+o2=int(data[0],2)
 
 data=data2
 index = 0
@@ -189,4 +189,4 @@ while len(data) > 1:
     index += 1
 
 co2=int(data[0],2)
-print(oxygen*co2)
+print(o2*co2)
