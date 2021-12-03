@@ -39,6 +39,7 @@ print(count)
 
 
 
+
 #day 2
 
 """
@@ -123,11 +124,11 @@ with open('C:\\Users\\ARyOtaRe\\Documents\\advent of code\\input_day3.txt', 'r')
 
 gamma=""
 epsilon=""
-for b in range (0, len(data[0])):
+for b in range(len(data[0])):
     one =0
     zero = 0
-    for c in range(0, len(data)):
-        if data[c][b] == '0':
+    for datum__ in data:
+        if datum__[b] == '0':
             zero += 1
         else:
             one += 1
@@ -153,17 +154,14 @@ while len(data) > 1:
     zero = 0
     ones = []
     zeroes = []
-    for c in range(0, len(data)):
-        if data[c][index] == '0':
+    for datum_ in data:
+        if datum_[index] == '0':
             zero += 1
-            zeroes.append(data[c])
+            zeroes.append(datum_)
         else:
             one += 1
-            ones. append(data[c])
-    if zero > one:
-        data = zeroes
-    else:
-        data = ones
+            ones. append(datum_)
+    data = zeroes if zero > one else ones
     index += 1
 
 o2=int(data[0],2)
@@ -175,17 +173,14 @@ while len(data) > 1:
     zero = 0
     ones=[]
     zeroes=[]
-    for c in range(0, len(data)):
-        if data[c][index] == '0':
-             zero += 1
-             zeroes.append (data[c])
+    for datum in data:
+        if datum[index] == '0':
+            zero += 1
+            zeroes.append(datum)
         else:
-             one += 1
-             ones. append (data[c])
-    if one < zero:
-        data = ones
-    else:
-        data = zeroes
+            one += 1
+            ones. append(datum)
+    data = ones if one < zero else zeroes
     index += 1
 
 co2=int(data[0],2)
