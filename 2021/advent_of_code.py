@@ -94,17 +94,6 @@ print(fwd2*dpt2)
 #day 3
 
 """
-i=0
-j=0
-k=0
-l=0
-
-
-oeuf=0
-delta=[]
-epsilon=[]
-
-
 with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day3.txt', 'r') as input_file:
     data=[x for x in input_file.read().split()]
 
