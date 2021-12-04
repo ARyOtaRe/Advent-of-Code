@@ -40,6 +40,7 @@ print(count)
 
 
 
+
 #day 2
 
 """
@@ -92,6 +93,7 @@ print(fwd2*dpt2)
 
 #day 3
 
+"""
 i=0
 j=0
 k=0
@@ -185,3 +187,106 @@ while len(data) > 1:
 
 co2=int(data[0],2)
 print(o2*co2)
+"""
+
+
+#day 4
+
+#part1
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day4.txt") as input_file:
+    drawn_card=[int(x) for x in input_file.readline().strip('\n').split(',')]
+    cards = []
+    while input_file.readline():
+        card =[]
+        for _ in range(5):
+            card.extend([int(x) for x in input_file.readline().strip('\n').split(' ') if x !=''])
+            print('card got extended')
+        cards.append(card)
+        print('cards got appended')
+
+
+def winner(card):
+    beg = 0
+    for _ in range(5):
+        if card[beg] + card[beg+1] + card[beg+2] + card[beg+3] + card[beg+4] == 500:
+            print('noice')
+            return True
+        beg += 5
+
+    beg = 0
+    for _ in range(5):
+        if card[beg] + card[beg+5] + card[beg+10] + card[beg+15] + card[beg+20] == 500:
+            print('amazing!')
+            return True
+        beg += 1
+    return False
+
+won = False
+while not won:
+    number=drawn_card[0]
+    drawn_card = drawn_card[1:]
+    for card in cards:
+        print('hmmm sexy')
+        for i in range(len(card)):
+            if card[i]==number:
+                print('oh fuck it\'s hot')
+                card[i]=100
+    for card in cards:
+        print('hmmmmmmmmmm I want sexxxx')
+        if winner(card):
+            total = sum(x for x in card if x != 100)
+            print(total*number)
+            won=True
+
+
+#part 2
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day4.txt") as input_file:
+    drawn_card=[int(x) for x in input_file.readline().strip('\n').split(',')]
+    cards = []
+    while input_file.readline():
+        card =[]
+        for _ in range(5):
+            card.extend([int(x) for x in input_file.readline().strip('\n').split(' ') if x !=''])
+            print('card got extended')
+        cards.append(card)
+        print('cards got appended')
+
+
+def winner(card):
+    beg = 0
+    for _ in range(5):
+        if card[beg] + card[beg+1] + card[beg+2] + card[beg+3] + card[beg+4] == 500:
+            print('noice')
+            return True
+        beg += 5
+
+    beg = 0
+    for _ in range(5):
+        if card[beg] + card[beg+5] + card[beg+10] + card[beg+15] + card[beg+20] == 500:
+            print('amazing!')
+            return True
+        beg += 1
+    return False
+
+found=False
+while not found:
+    number = drawn_card[0]
+    drawn_card = drawn_card[1:]
+    for index in range(len(cards)):
+        for i in range(len(cards[index])):
+            if cards[index][i] == number:
+                cards[index][i] = 100
+    index = 0
+    while index<len(cards):
+        if winner(cards[index]):
+            if len(cards) > 1:
+                cards.pop(index)
+            else:
+                found = True
+                print(cards[index])
+                break
+        else:
+            index += 1
+total = sum(x for x in cards[index] if x != 100)
+print(total*number)
+
