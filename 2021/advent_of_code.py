@@ -108,19 +108,6 @@ epsilon=[]
 with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day3.txt', 'r') as input_file:
     data=[x for x in input_file.read().split()]
 
-    for word in input_file:
-        for a in range(len(word)):
-            if word[a]=='0':
-                i+=1
-            else:
-                j+=1
-            if i>j:
-                delta.append('0')
-                epsilon.append('1')
-            else:
-                delta.append('1')
-                epsilon.append('0')
-
 
 
 
