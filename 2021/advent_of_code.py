@@ -275,22 +275,16 @@ with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_d
     data = input_file.read().strip().split("\n")
 
 def parse(line):
-    """
-    Parse a line in the input
-    """
     start, _, end=line.split(" ")
     start=[int(i) for i in start.split(",")]
     end=[int(i) for i in end.split(",")]
     return start, end
 
 
-# Definitely not confusing variable naming
 lines=[parse(line) for line in data]
 
-# Discard points that aren't vertical or horizontal
 lines=[li for li in lines if li[0][0]==li[1][0] or li[0][1]==li[1][1]]
 
-# Find the boundaries of the grid
 max_x=0
 max_y=0
 for li in lines:
@@ -314,7 +308,6 @@ for li in lines:
             cover[x][start[1]]+=1
 
 
-# Find out how many points are covered more than once
 ans = sum(count>=2 for count in cover.flatten())
 print(cover.transpose())
 print(ans)
@@ -337,7 +330,6 @@ def parse(line):
     start=[int(i) for i in start.split(",")]
     end=[int(i) for i in end.split(",")]
 
-    # Direction vector for looping purposes
     direc=[sign(end[0]-start[0]), sign(end[1]-start[1])]
 
     return start, end, direc
