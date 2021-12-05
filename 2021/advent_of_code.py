@@ -1,4 +1,5 @@
-
+from os import link
+import numpy as np
 
 
 
@@ -167,7 +168,7 @@ print(o2*co2)
 
 
 #day 4
-
+"""
 #part1
 with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day4.txt") as input_file:
     drawn_card=[int(x) for x in input_file.readline().strip('\n').split(',')]
@@ -265,4 +266,105 @@ while not found:
             index += 1
 total = sum(x for x in cards[index] if x != 100)
 print(total*number)
+"""
 
+
+#day 5
+
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day5.txt") as input_file:
+    data = input_file.read().strip().split("\n")
+
+def parse(line):
+    """
+    Parse a line in the input
+    """
+    start, _, end=line.split(" ")
+    start=[int(i) for i in start.split(",")]
+    end=[int(i) for i in end.split(",")]
+    return start, end
+
+
+# Definitely not confusing variable naming
+lines=[parse(line) for line in data]
+
+# Discard points that aren't vertical or horizontal
+lines=[li for li in lines if li[0][0]==li[1][0] or li[0][1]==li[1][1]]
+
+# Find the boundaries of the grid
+max_x=0
+max_y=0
+for li in lines:
+    max_x=max(max_x, li[0][0], li[1][0])
+    max_y=max(max_y, li[0][1], li[1][1])
+
+cover = np.zeros((max_x + 1, max_y + 1))
+for li in lines:
+    start, end=li
+    if start[0]==end[0]:
+        bottom=min(start[1], end[1])
+        top=max(start[1], end[1])
+        for y in range(bottom, top+1):
+            cover[start[0]][y]+=1
+
+    else:
+        assert start[1]==end[1]
+        left=min(start[0], end[0])
+        right=max(start[0], end[0])
+        for x in range(left, right+1):
+            cover[x][start[1]]+=1
+
+
+# Find out how many points are covered more than once
+ans = sum(count>=2 for count in cover.flatten())
+print(cover.transpose())
+print(ans)
+
+
+
+
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day5.txt") as input_file:
+    data = input_file.read().strip().split("\n")
+
+def sign(x):
+    if x>0:
+        return 1
+    if x<0:
+        return -1
+    return 0
+
+def parse(line):
+    start, _, end=line.split(" ")
+    start=[int(i) for i in start.split(",")]
+    end=[int(i) for i in end.split(",")]
+
+    # Direction vector for looping purposes
+    direc=[sign(end[0]-start[0]), sign(end[1]-start[1])]
+
+    return start, end, direc
+
+lines=[parse(line) for line in data]
+
+max_x=0
+max_y=0
+for li in lines:
+    max_x=max(max_x, li[0][0], li[1][0])
+    max_y=max(max_y, li[0][1], li[1][1])
+
+cover=np.zeros((max_x+1, max_y+1))
+for li in lines:
+    start, end, direc=li
+    j=start
+    while j!=end:
+        cover[j[0], j[1]]+=1
+        j[0]+=direc[0]
+        j[1]+=direc[1]
+    cover[end[0]][end[1]]+=1
+
+
+ans=sum(count>=2 for count in cover.flatten())
+cover.transpose()
+
+for i in cover:
+    print("".join([str(int(x)) if x > 0 else "." for x in i]))
+
+print(ans)
