@@ -366,14 +366,14 @@ print(ans)
 #day 6
 
 #part 1
-with open("C:\\Users\\21mi356\\Documents\\input_day6.txt") as input_file:
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day6.txt") as input_file:
     data=[int(x) for x in file.readLine().split(',')]
 
 print data
 for days in range(80):
     k=0
     end=len(data)
-    while k>end:
+    while k<end:
         if data[k]==0:
             data[k]=6
             data.append(8)
@@ -382,3 +382,36 @@ for days in range(80):
         k+=1
 
 print(len(data))
+
+data_array={}
+
+#part 2
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day6.txt") as input_file:
+    data=[int(x) for x in file.readline().split(',')]
+    for l in range(max(9,max(data))):
+        data_array[l]=0
+    for k in data:
+        data_array[k]+=1
+
+print(data_array)
+
+for _ in range(256):
+    zeroes=data_array[0]
+    data_array[0]=0
+    for index in range(1,len(data_array)):
+        data_array[index-1]+=data_array[index]
+        data_array[index]=0
+    data_array[6]+=zeroes
+    data_array[8]+=zeroes
+    print(data_array)
+
+sol=0
+for i in data_array:
+    sol+=data_array[i]
+
+print(sol)
+
+
+        
+
+
