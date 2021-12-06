@@ -270,7 +270,8 @@ print(total*number)
 
 
 #day 5
-
+"""
+#part 1
 with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day5.txt") as input_file:
     data = input_file.read().strip().split("\n")
 
@@ -314,7 +315,7 @@ print(ans)
 
 
 
-
+#part 2
 with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day5.txt") as input_file:
     data = input_file.read().strip().split("\n")
 
@@ -360,3 +361,24 @@ for i in cover:
     print("".join([str(int(x)) if x > 0 else "." for x in i]))
 
 print(ans)
+"""
+
+#day 6
+
+#part 1
+with open("C:\\Users\\21mi356\\Documents\\input_day6.txt") as input_file:
+    data=[int(x) for x in file.readLine().split(',')]
+
+print data
+for days in range(80):
+    k=0
+    end=len(data)
+    while k>end:
+        if data[k]==0:
+            data[k]=6
+            data.append(8)
+        else:
+            data[k]-=1
+        k+=1
+
+print(len(data))
