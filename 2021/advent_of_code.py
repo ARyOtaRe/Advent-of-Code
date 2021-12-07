@@ -1,6 +1,7 @@
 from os import link
 import numpy as np
-
+import sys
+from functools import cache
 
 
 
@@ -364,7 +365,7 @@ print(ans)
 """
 
 #day 6
-
+"""
 #part 1
 with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day6.txt") as input_file:
     data=[int(x) for x in input_file.readline().split(',')]
@@ -404,8 +405,41 @@ for _ in range(256):
 
 sol = sum(value for i, value in data_array.items())
 print(sol)
+"""
 
+#day 7
 
-        
+#part 1
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day7.txt") as input_file:
+    data=[int(x) for x in input_file.read().strip().split(',')]
 
+data=sorted(data, reverse=True)
 
+med=data[len(data)//2]
+ans=sum(abs(i-med) for i in data)
+print(ans)
+#this bit works, I didn't change the input file name so it didn't work, that's why the other part 1 code exists
+
+least=sys.maxsize
+for b in range(1000):
+    value=sum(abs(element-b) for element in data)
+    if value<least:
+        least=value
+
+print(least)
+
+#part 2
+@cache
+def sumup(x):
+    return x*(x-1)//2
+
+least=sys.maxsize
+
+for i in range(10000):
+    val=0
+    for e in data:
+        val+=sumup(abs(e-i)+1)
+    if val<least:
+        least=val
+
+print(least)
