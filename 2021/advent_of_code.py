@@ -679,7 +679,7 @@ print(scores[len(scores)//2])
 """
 
 #day 11
-
+"""
 #part 1
 with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day11.txt") as f:
     s = f.read()
@@ -717,16 +717,15 @@ def step(v):
     for i in range(SIZE_X):
         for j in range(SIZE_Y):
             v[i][j] += 1
-        
     q = []
     for i in range(SIZE_X):
         for j in range(SIZE_Y):
             if v[i][j] > 9:
                 v[i][j] = 0
                 q.append((i, j))
-                
+
     flashes = 0
-    
+
     while len(q) != 0:
         x, y = q[0]
         q = q[1:]
@@ -808,3 +807,59 @@ while True:
     if areYouAl1ABunchOfZeros(data):
         print(generation)
         break
+"""
+
+#day 12
+
+#part 1
+data = {}
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day12.txt") as input_file:
+    line=input_file.readline()
+    while line:
+        nodes=[x for x in line.strip('\n').split('-')]
+        if data.get(nodes[0], "FirstTime")=="FirstTime":
+            data[nodes[0]]=[]
+        if data.get(nodes[1], "FirstTime")=="FirstTime":
+            data[nodes[1]]=[]
+        data[nodes[0]].append(nodes[1])
+        data[nodes[1]].append(nodes[0])
+        line=input_file.readline()
+
+def Recursion():
+    if path[-1]!='end':
+        for nextMove in data[path[-1]]:
+            if (nextMove.upper()==nextMove) or (nextMove not in path):
+                path.append(nextMove)
+                Recursion()
+                path.pop()
+    else:
+        solutions.append(path)
+
+
+path=["start"]
+solutions=[]
+Recursion()
+print(len(solutions))
+
+#part 2
+                             
+def Recursion():
+    global solutions
+    if path[-1]!='end':
+        for nextMove in data[path[-1]]:
+            if (nextMove!='start') and (UpToOneCaveTwiceOnly (path)) and ((nextMove.upper()==nextMove) or (path.count(nextMove)<2)):
+                 path.append (nextMove)
+                 Recursion()
+                 path.pop()
+    elif UpToOneCaveTwiceOnly(path):
+        solutions+=1
+
+
+def UpToOneCaveTwiceOnly(s):
+    justlowercases=[x for x in s if x.upper()!=x]
+    return len(justlowercases)-len(set(justlowercases))<=1
+
+path=["start"]
+solutions=0
+Recursion()
+print(solutions)
