@@ -743,10 +743,7 @@ def step(v):
 
 clv = v.copy()
 
-fl = 0
-for _ in range(100):
-    fl += step(clv)
-    
+fl = sum(step(clv) for _ in range(100))
 print(fl)
 
 #part 2
