@@ -680,6 +680,7 @@ print(scores[len(scores)//2])
 
 #day 11
 
+#part 1
 with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day11.txt") as f:
     s = f.read()
     
@@ -748,16 +749,7 @@ for _ in range(100):
     
 print(fl)
 
-stp = 0
-while True:
-    stp += 1
-    if step(v) == SIZE_X * SIZE_Y:
-        break
-print(stp + 2)
-
-
-
-
+#part 2
 data = []
 with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day11.txt") as input_file:
     line = input_file.readline()
@@ -794,8 +786,7 @@ def processFlashes (data) -> int:
 def removeAlINegativity(data):
     for x in range(len(data)):
         for y in range(len(data[x])):
-             if data[x][y]<0:
-                 data[x][y]=0
+            data[x][y] = max(data[x][y], 0)
 
 
 def areYouAl1ABunchOfZeros(data):
@@ -818,5 +809,5 @@ while True:
         flashes = processFlashes(data)
     removeAlINegativity(data)
     if areYouAl1ABunchOfZeros(data):
-        print("PART 2 SOLUTION:", generation)
+        print(generation)
         break
