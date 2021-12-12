@@ -754,3 +754,69 @@ while True:
     if step(v) == SIZE_X * SIZE_Y:
         break
 print(stp + 2)
+
+
+
+
+data = []
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day11.txt") as input_file:
+    line = input_file.readline()
+    while line:
+        data.append ( [int(x) for x in line.strip('\n')])
+        line = input_file.readline()
+
+def addOne(data):
+        for x in range(len (data)):
+            for y in range(len(data[x])):
+                data[x][y] += 1
+
+def GetElement(data, x, y):
+    if (x < 0) or (x >= len(data)):
+        return -1
+    if (y < 0) or (y >= len(data[x])):
+        return -1
+    return data[x][y]
+
+
+def processFlashes (data) -> int:
+    flashes = 0
+    for x in range(len(data)):
+        for y in range (len(data[x])):
+            if data[x][y]>9:
+                flashes+=1
+                data[x][y]=-100000
+                eight=[[x-1, y-1], [x-1, y], [x-1, y+1], [x, y-1], [x, y+1], [x+1, y+1], [x+1, y], [x+1, y-1]]
+                for one in eight:
+                    if GetElement (data, *one) != -1:
+                        data[one[0]][one[1]] += 1
+    return flashes
+
+def removeAlINegativity(data):
+    for x in range(len(data)):
+        for y in range(len(data[x])):
+             if data[x][y]<0:
+                 data[x][y]=0
+
+
+def areYouAl1ABunchOfZeros(data):
+    total = 0
+    for x in range(len(data)):
+        for y in range(len(data[x])):
+            if data[x][y]==0:
+                 total+=1
+    return total==(len(data)*len(data[0]))
+
+totalflashes = 0
+generation = 0
+
+while True:
+    generation += 1
+    addOne (data)
+    flashes = processFlashes (data)
+    while flashes > 0:
+        totalflashes += flashes
+        flashes = processFlashes(data)
+    removeAlINegativity(data)
+    if areYouAl1ABunchOfZeros(data):
+        print("PART 2 SOLUTION:", generation)
+        break
