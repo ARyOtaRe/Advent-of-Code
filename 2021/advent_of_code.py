@@ -11,7 +11,7 @@ from functools import cache
 # day 1
 
 """ 
-with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day1.txt', 'r') as input_file:
+with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day01.txt', 'r') as input_file:
     data=input_file.read()
 
 
@@ -50,7 +50,7 @@ x=0
 y=0
 
 
-with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day2.txt', 'r') as input_file:
+with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day02.txt', 'r') as input_file:
 
     for word in input_file:
         cmd,amt=word.split()
@@ -68,7 +68,7 @@ with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_d
     print(x*y)
 
 
-with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day2.txt', 'r') as input_file:
+with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day02.txt', 'r') as input_file:
     fwd1 = 0
     dpt1=0
     fwd2 = 0
@@ -96,7 +96,7 @@ print(fwd2*dpt2)
 #day 3
 
 """
-with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day3.txt', 'r') as input_file:
+with open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day03.txt', 'r') as input_file:
     data=[x for x in input_file.read().split()]
 
 
@@ -171,7 +171,7 @@ print(o2*co2)
 #day 4
 """
 #part1
-with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day4.txt") as input_file:
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day04.txt") as input_file:
     drawn_card=[int(x) for x in input_file.readline().strip('\n').split(',')]
     cards = []
     while input_file.readline():
@@ -218,7 +218,7 @@ while not won:
 
 
 #part 2
-with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day4.txt") as input_file:
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day04.txt") as input_file:
     drawn_card=[int(x) for x in input_file.readline().strip('\n').split(',')]
     cards = []
     while input_file.readline():
@@ -273,7 +273,7 @@ print(total*number)
 #day 5
 """
 #part 1
-with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day5.txt") as input_file:
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day05.txt") as input_file:
     data = input_file.read().strip().split("\n")
 
 def parse(line):
@@ -317,7 +317,7 @@ print(ans)
 
 
 #part 2
-with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day5.txt") as input_file:
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day05.txt") as input_file:
     data = input_file.read().strip().split("\n")
 
 def sign(x):
@@ -367,7 +367,7 @@ print(ans)
 #day 6
 """
 #part 1
-with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day6.txt") as input_file:
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day06.txt") as input_file:
     data=[int(x) for x in input_file.readline().split(',')]
 
 print (data)
@@ -384,7 +384,7 @@ print(len(data))
 data_array={}
 
 #part 2
-with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day6.txt") as input_file:
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day06.txt") as input_file:
     data=[int(x) for x in input_file.readline().split(',')]
     for l in range(max(9,max(data))):
         data_array[l]=0
@@ -410,7 +410,7 @@ print(sol)
 #day 7
 """
 #part 1
-with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day7.txt") as input_file:
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day07.txt") as input_file:
     data=[int(x) for x in input_file.read().strip().split(',')]
 
 data=sorted(data, reverse=True)
@@ -448,7 +448,7 @@ print(least)
 
 #day 8
 """
-with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day8.txt") as input_file:
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day08.txt") as input_file:
     s = [x for x in input_file.read().splitlines() if x != '']
     
 v = [list(map(lambda x: [v for v in x.strip().split(' ')], line.split(' | '))) for line in s]
@@ -523,7 +523,7 @@ print(sum)
 
 #day 9
 """
-with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day9.txt") as input_file:
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day09.txt") as input_file:
     s = input_file.read()
 
 def parse(s):
@@ -810,7 +810,7 @@ while True:
 """
 
 #day 12
-
+"""
 #part 1
 data = {}
 with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day12.txt") as input_file:
@@ -863,3 +863,56 @@ path=["start"]
 solutions=0
 Recursion()
 print(solutions)
+"""
+
+#day 13
+
+#part 1
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day13.txt") as input_file:
+    s = input_file.read()
+    
+
+def parse(s):
+    lines=s.splitlines()
+    em=lines.index('')
+
+    lx=lambda x: [x[0], int(x[1])]
+
+    lc=lambda x: (int(x[0]), int(x[1]))
+
+    return {lc(l.split(',')) for l in lines[:em]}, [lx(l.split(' ')[2].split('=')) for l in lines[em + 1 :] if l!='']
+
+grid,folds=parse(s)
+
+def applyFold(grid, fold):
+    newgrid=set([])
+    if fold[0]=='x':
+        x=fold[1]
+        for point in grid:
+            nx=x-(point[0]-x) if point[0]>x else point[0]
+            ny=point[1]
+
+            newgrid|=set([(nx, ny)])
+    else:
+        y=fold[1]
+        for point in grid:
+            nx=point[0]
+            ny=y-(point[1]-y) if point[1]>y else point[1]
+            newgrid|=set([(nx, ny)])
+    return newgrid
+
+ngrid=applyFold(grid, folds[0])
+print(len(ngrid))
+
+for fold in folds:
+    grid=applyFold(grid, fold)
+    
+def pg(gr):
+    g=[[' ']*50 for _ in range(10)]
+    for p in gr:
+        g[p[1]][p[0]]='#'
+        
+    for l in g:
+        print(''.join(l))
+
+pg(grid)
