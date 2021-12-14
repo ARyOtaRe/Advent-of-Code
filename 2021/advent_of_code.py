@@ -866,7 +866,7 @@ print(solutions)
 """
 
 #day 13
-
+"""
 #part 1
 with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day13.txt") as input_file:
     s = input_file.read()
@@ -904,6 +904,7 @@ def applyFold(grid, fold):
 ngrid=applyFold(grid, folds[0])
 print(len(ngrid))
 
+#part 2
 for fold in folds:
     grid=applyFold(grid, fold)
     
@@ -916,3 +917,132 @@ def pg(gr):
         print(''.join(l))
 
 pg(grid)
+"""
+
+#day 14
+
+with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day14.txt") as f:
+    s = f.read()
+    
+def parse(s):
+    lines=s.splitlines()
+    fl=lines[0]
+    lanes=lines[2:]
+    
+    return list(fl), [lane.split(' -> ') for lane in lanes if lane!='']
+
+fl, r=parse(s)
+
+#part 1
+
+
+def fr(ab, lanes):
+    for l in lanes:
+        if l[0]==ab:
+            return l
+            
+    return None
+
+def step(A, l):
+    i=0
+    
+    while i+1<len(A):
+        lan=fr(A[i]+A[i+1], l)
+        if lan:
+            A=A[:i+1]+list(lan[1])+A[i+1:]
+            i+=1
+        i+=1
+        
+    return A
+
+cp=fl.copy()
+for _ in range(10):
+    cp=step(cp, r)
+
+
+def minmax(cp):
+    counts=[0]*128
+    for s in cp:
+        counts[ord(s)]+=1
+        
+    mx, mi = 0, ord(s[0])
+    for i in range(128):
+        if counts[i] > counts[mx]: mx = i
+        if counts[i] != 0 and counts[i] < counts[mi]: mi = i
+    
+    return counts[mx] - counts[mi]
+
+print(minmax(cp))
+
+
+#part 2
+def computed(A):
+    i=0
+    d={}
+    while i+1<len(A):
+        k=''.join(A[i:i+2])
+        try:
+            d[k]+=1
+        except KeyError:
+            d[k]=1
+        i+=1
+
+    fpair=''.join(A[:2])
+    lpair=''.join(A[-2:])
+
+    return d, fpair, lpair
+
+def step2(d, fpair, lpair, l):
+    nd={}
+    for k in d:
+        lan=fr(k, l)
+        if lan:
+            k1=k[0]+lan[1]
+            k2=lan[1]+k[1]
+            try:
+                nd[k1]+=d[k]
+            except KeyError:
+                nd[k1]=d[k]
+
+            try:
+                nd[k2]+=d[k]
+            except KeyError:
+                nd[k2]=d[k]
+        else:
+            nd[k]=d[k]
+
+    fprl=fr(fpair, l)
+    fp=fpair[0]+fprl[1] if fprl else fpair
+    lprl=fr(lpair, l)
+    lp=lprl[1]+lpair[1] if lprl else lpair
+    return nd, fp, lp
+
+def mostleast(d, fp, lp):
+    counts=[0]*128
+    for s in d:
+        vl, vr=d[s], d[s]
+        if s==fp:
+            vl+=1
+            
+        if s==lp:
+            vr+=1
+            
+        counts[ord(s[0])]+=vl
+        counts[ord(s[1])]+=vr
+    
+    for i in range(128):
+        counts[i]=counts[i]//2
+    
+    mx, mi=0, ord(s[0])
+    for i in range(128):
+        if counts[i]>counts[mx]: mx=i
+        if counts[i]!=0 and counts[i]<counts[mi]: mi=i
+    
+    return counts[mx]-counts[mi]
+
+d, fpair, lpair=computed(fl)
+
+for _ in range(40):
+    d, fpair, lpair=step2(d, fpair, lpair, r)
+
+print(mostleast(d, fpair, lpair))
