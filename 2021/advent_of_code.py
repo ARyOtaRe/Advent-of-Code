@@ -2,6 +2,15 @@ from os import link
 import numpy as np
 import sys
 from functools import cache
+from datetime import datetime
+import copy
+import sys
+import heapq
+import itertools
+from collections import defaultdict, Counter, deque
+import re
+import ast
+
 
 
 
@@ -920,7 +929,7 @@ pg(grid)
 """
 
 #day 14
-
+"""
 with open("C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day14.txt") as f:
     s = f.read()
     
@@ -1046,3 +1055,433 @@ for _ in range(40):
     d, fpair, lpair=step2(d, fpair, lpair, r)
 
 print(mostleast(d, fpair, lpair))
+"""
+
+
+#day 15
+"""
+sys.setrecursionlimit(int(1e6))
+
+infile = sys.argv[1] if len(sys.argv)>1 else '15.in'
+
+G = [[int(x) for x in line.strip()] for line in open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day15.txt')]
+R = len(G)
+C = len(G[0])
+DR = [-1,0,1,0]
+DC = [0,1,0,-1]
+
+def solve(n_tiles):
+    D = [[None for _ in range(n_tiles*C)] for _ in range(n_tiles*R)]
+    Q = [(0,0,0)]
+    while Q:
+        (dist,r,c) = heapq.heappop(Q)
+        if r<0 or r>=n_tiles*R or c<0 or c>=n_tiles*C:
+            continue
+
+        val = G[r%R][c%C] + (r//R) + (c//C)
+        while val > 9:
+            val -= 9
+        rc_cost = dist + val
+
+        if D[r][c] is None or rc_cost < D[r][c]:
+            D[r][c] = rc_cost
+        else:
+            continue
+        if r==n_tiles*R-1 and c==n_tiles*C-1:
+            break
+
+        for d in range(4):
+            rr = r+DR[d]
+            cc = c+DC[d]
+            heapq.heappush(Q, (D[r][c],rr,cc))
+    return D[n_tiles*R-1][n_tiles*C-1] - G[0][0]
+
+#part 1
+print(solve(1))
+
+#part 2
+print(solve(5))
+"""
+
+#day 16
+"""
+sys.setrecursionlimit(int(1e6))
+
+infile = sys.argv[1] if len(sys.argv)>1 else '16.in'
+data = open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day16.txt').read().strip()
+binary = bin(int(data, 16))[2:]
+while len(binary) < 4*len(data):
+    binary = '0'+binary
+assert len(binary)%4==0
+assert len(binary) == 4*len(data)
+
+p1 = 0
+def parse(bits, i, indent):
+    global p1
+    version = int(bits[i+0:i+3], 2)
+    p1 += version
+    type_ = int(bits[i+3:i+6], 2)
+    indent_str = (' '*indent)
+    #print(f'{indent_str}i={i} version={version} type={type_} {len(binary)}')
+    if type_ == 4: # lit
+        i += 6
+        v = 0
+        while True:
+            v = v*16 + int(bits[i+1:i+5], 2)
+            i += 5
+            if bits[i-5] == '0':
+                return v,i
+        assert False
+    else:
+        len_id = int(bits[i+6], 2)
+        vs = []
+        if len_id == 0:
+            len_bits = int(bits[i+7:i+7+15], 2)
+            #print(f'len_bits={len_bits} {bits[i+7:i+7+15]}')
+            start_i = i+7+15
+            i = start_i
+            while True:
+                v, next_i = parse(bits, i, indent+1)
+                #print(f'v={v} next_i={next_i}')
+                vs.append(v)
+                assert next_i > i
+                assert next_i - start_i <= len_bits, f'next_i={next_i} start_i={start_i} len_bits={len_bits}'
+                i = next_i
+                if next_i - start_i == len_bits:
+                    break
+        else:
+            n_packets = int(bits[i+7:i+7+11], 2)
+            #print(f'n_packets={n_packets}')
+            i += 7+11
+            for _ in range(n_packets):
+                v, next_i = parse(bits, i, indent+1)
+                #print(f'v={v} next_i={next_i}')
+                vs.append(v)
+                assert next_i > i
+                i = next_i
+        if type_ == 0:
+            return sum(vs), i
+        elif type_ == 1:
+            ans = 1
+            for v in vs:
+                ans *= v
+            return ans, i
+        elif type_ == 2:
+            return min(vs), i
+        elif type_ == 3:
+            return max(vs), i
+        elif type_ == 5:
+            return (1 if vs[0] > vs[1] else 0), i
+        elif type_ == 6:
+            return (1 if vs[0] < vs[1] else 0), i
+        elif type_ == 7:
+            return (1 if vs[0] == vs[1] else 0), i
+        else:
+            assert False, type_
+
+value, next_i  = parse(binary, 0, 0)
+assert len(binary)-4 < next_i <= len(binary)
+
+#part 1
+print(p1)
+
+#part 2
+print(value)
+"""
+
+#day 17
+"""
+#target area: x=195..238, y=-93..-67
+
+# y(t) ~ -t^2 + DY*t
+
+p2 = 0
+ans = 0
+for DX in range(150):
+    for DY in range(-150, 1000):
+        ok = False
+        max_y = 0
+        x = 0
+        y = 0
+        dx = DX
+        dy = DY
+        for _ in range(1000):
+            x += dx
+            y += dy
+            max_y = max(max_y, y)
+            if dx > 0:
+                dx -= 1
+            elif dx < 0:
+                dx += 1
+            dy -= 1
+            #if 20<=x<=30 and -10<=y<=-5:
+            #if 96<=x<=125 and -144<=y<=-98:
+            if 195<=x<=238 and -93<=y<=-67:
+                ok = True
+        if ok:
+            p2 += 1
+            if max_y > ans:
+                ans = max_y
+                print(DX,DY,ans)
+            
+print(ans)
+print(p2)
+"""
+#day 18
+
+
+infile = sys.argv[1] if len(sys.argv)>1 else '18.in'
+data = open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day18.txt').read().strip()
+
+
+ans = None
+
+def add(n1, n2):
+  ret = [n1, n2]
+  return reduce_(ret)
+
+def reduce_(n):
+    did1, n1 = explode(n)
+    if did1:
+        return reduce_(n1)
+    did2, n2 = split(n)
+    if did2:
+      return reduce_(n2)
+    else:
+      return n2
+ 
+def explode(n):  # sourcery no-metrics
+    ns = str(n)
+    nums = re.findall('\d+', ns)
+    parts = []
+    i = 0
+    while i < len(ns):
+      if ns[i] == '[':
+        parts.append('[')
+        i += 1
+      elif ns[i] == ',':
+        parts.append(',')
+        i += 1
+      elif ns[i] == ']':
+        parts.append(']')
+        i += 1
+      elif ns[i] == ' ':
+        i += 1
+      else:
+        assert ns[i].isdigit()
+        j = i
+        while j < len(ns) and ns[j].isdigit():
+          j += 1
+        parts.append(int(ns[i:j]))
+        i = j
+
+    depth = 0
+    for i,c in enumerate(parts):
+        if c=='[':
+            depth += 1
+            if depth == 5:
+              old_ns = ns
+              left = parts[i+1]
+              assert isinstance(left, int)
+              assert parts[i+2] == ','
+              right = parts[i+3]
+              assert isinstance(right, int)
+              left_i = None
+              right_i = None
+              for j in range(len(parts)):
+                if isinstance(parts[j], int) and j < i:
+                  left_i = j
+                elif isinstance(parts[j], int) and j>i+3 and right_i is None:
+                  right_i = j
+              if right_i is not None:
+                assert right_i > i
+                parts[right_i] += right
+              parts = parts[:i] + [0] + parts[i+5:]
+              if left_i is not None:
+                parts[left_i] += left
+              return True, ast.literal_eval(''.join([str(x) for x in parts]))
+        elif c==']':
+          depth -= 1
+    return False, n
+
+def split(n):
+    if isinstance(n, list):
+        did1, n1 = split(n[0])
+        if did1:
+            return True, [n1, n[1]]
+        did2, n2 = split(n[1])
+        return did2, [n1, n2]
+    else:
+        assert isinstance(n, int)
+        if n >= 10:
+          return True, [n//2, (n+1)//2]
+        else:
+          return False, n
+
+def magnitude(n):
+  if isinstance(n, list):
+    return 3*magnitude(n[0]) + 2*magnitude(n[1])
+  else:
+    return n
+  
+
+X = []
+for line in data.split('\n'):
+  assert line == line.strip()
+  X.append(ast.literal_eval(line))
+
+ans = None
+for x in X:
+  for y in X:
+    if x != y:
+      score = magnitude(add(x, y))
+      if ans is None or score > ans:
+        ans = score
+print(ans)
+
+
+# day 19
+
+"""
+infile = sys.argv[1] if len(sys.argv)>1 else '19.in'
+data = open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day19.txt').read().strip()
+
+scanners = data.split('\n\n')
+B = []
+for scan in scanners:
+  beacons = []
+  for line in scan.split('\n'):
+    line = line.strip()
+    if line.startswith('--'):
+      continue
+    x,y,z = [int(v) for v in line.split(',')]
+    beacons.append((x,y,z))
+  B.append(beacons)
+
+#part 1
+
+def adjust(point, d):
+  assert 0<=d<48
+
+
+  ret = [point[0], point[1], point[2]]
+  for i,p in enumerate(list(itertools.permutations([0, 1, 2]))):
+    if d//8 == i:
+      ret = [ret[p[0]], ret[p[1]], ret[p[2]]]
+  
+  if d%2==1:
+    ret[0] *= -1
+  if (d//2)%2==1:
+    ret[1] *= -1
+  if (d//4)%2==1:
+    ret[2] *= -1
+  return ret
+
+N = len(B)
+FINAL = set(B[0])
+P = [None for _ in range(N)]
+P[0] = (0,0,0)
+
+GOOD = set([0])
+BAD = set(range(1,N))
+
+B_ADJ = {}
+for i in range(N):
+  for d in range(48):
+    B_ADJ[(i,d)] = [adjust(p, d) for p in B[i]]
+
+while BAD:
+  found = None
+  for b in BAD:
+    if found:
+      continue
+    for g in [0]:
+      g_scan = [tuple([p[0]+P[g][0], p[1]+P[g][1], p[2]+P[g][2]]) for p in FINAL] #B[g]]
+      g_set = set(g_scan)
+
+      for b_dir in range(48):
+        b_scan = B_ADJ[(b, b_dir)]
+        VOTE = defaultdict(int)
+        for bi in range(len(B[b])):
+          for item in g_scan:
+            
+            dx = -b_scan[bi][0] + item[0]
+            dy = -b_scan[bi][1] + item[1]
+            dz = -b_scan[bi][2] + item[2]
+            VOTE[(dx,dy,dz)] += 1
+        for (dx,dy,dz), val in VOTE.items():
+          if val >= 12:
+              P[b] = (dx, dy, dz)
+              
+              for p in b_scan:
+                FINAL.add(tuple([p[0] + dx, p[1]+dy, p[2]+dz]))
+              found = b
+  assert found
+  BAD.remove(found)
+  GOOD.add(found)
+print(len(FINAL))
+
+#part 2
+p2_ans = 0
+for p1 in P:
+  for p2 in P:
+    dist = abs(p1[0]-p2[0]) + abs(p1[1]-p2[1]) + abs(p1[2]-p2[2])
+    if dist > p2_ans:
+      p2_ans = dist
+print(p2_ans)
+"""
+
+#day 20
+
+
+
+infile = sys.argv[1] if len(sys.argv)>1 else '20.in'
+data = open('C:\\Users\\ARyOtaRe\\Documents\\GitHub\\Advent-of-Code\\2021\\input_day20.txt').read().strip()
+
+rule, start = data.split('\n\n')
+rule = rule.strip()
+assert len(rule) == 512
+#print(rule[0], rule[511])
+
+G = set()
+for r,line in enumerate(start.strip().split('\n')):
+  for c,x in enumerate(line.strip()):
+    if x=='#':
+      G.add((r,c))
+
+# on=true means G says what pixels are on (all the rest are off).
+# on=false means G says what pixels are *off* (all the rest are on)
+def step(G, on):
+  G2 = set()
+  rlo = min(r for r,c in G)
+  rhi = max([r for r,c in G])
+  clo = min(c for r,c in G)
+  chi = max(c for r,c in G)
+  for r in range(rlo-5, rhi+10):
+    for c in range(clo-5, chi+10):
+      rc_str = 0
+      bit = 8
+      for dr in [-1, 0, 1]:
+        for dc in [-1, 0, 1]:
+          if ((r+dr,c+dc) in G) == on:
+            rc_str += 2**bit
+          bit -= 1
+      assert 0<=rc_str < 512
+      if (rule[rc_str] == '#') != on:
+        G2.add((r,c))
+  return G2
+
+def show(G):
+  rlo = min(r for r,c in G)
+  rhi = max(r for r,c in G)
+  clo = min(c for r,c in G)
+  chi = max(c for r,c in G)
+  for r in range(rlo-5, rhi+5):
+    row = ''.join('#' if (r,c) in G else ' ' for c in range(clo-5, chi+5))
+    print(row)
+  
+for t in range(50):
+  if t==2:
+    print(len(G))
+  G = step(G, t%2==0)
+print(len(G))
